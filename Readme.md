@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Влад Вишневский](https://up.htmlacademy.ru/javascript/21/user/1169525).
-* Наставник: `Неизвестно`.
+* Наставник: [Алексей Корякин](https://htmlacademy.ru/profile/alexeycorr).
 
 ---
 
