@@ -1,5 +1,16 @@
 'use strict';
 
+const ALT_TEXT = `Фотография`;
+const NUMBER_PHOTOS = 25;
+const MIN_LIKES = 15;
+const MAX_LIKES = 200;
+
+const pictures = document.querySelector(`.pictures`);
+const picturesTitle = pictures.querySelector(`.pictures__title`);
+const pictureTemplate = document.querySelector(`#picture`)
+    .content
+    .querySelector(`.picture`);
+
 const commentsList = [
   `Всё отлично!`,
   `В целом всё неплохо. Но не всё.`,
@@ -18,19 +29,15 @@ const avatarNames = [
   `Игорь`,
   `Максим`];
 
-const picturesTitle = document.querySelector(`.pictures__title`);
-const pictures = document.querySelector(`.pictures`);
-const pictureTemplate = document.querySelector(`#picture`)
-    .content
-    .querySelector(`.picture`);
-
 const getRandomInt = function (min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
 const getCommentsArray = function (numberOfComments) {
   const array = [];
-  for (let i = 0; i < numberOfComments; i++) {
+  for (let i = 0; i < numberOfComments - 1; i++) {
     const commentObj = {
       avatar: `img/avatar-` + getRandomInt(1, 6) + `.svg`,
       message: commentsList[getRandomInt(1, 6)],
@@ -45,10 +52,10 @@ const createPhotoArray = function () {
   const randomData = [];
 
   for (let i = 1; i <= 25; i++) {
-    let object = {
+    const object = {
       url: `photos/` + i + `.jpg`,
       description: `Описание фотографии`,
-      likes: getRandomInt(15, 200),
+      likes: getRandomInt(MIN_LIKES, MAX_LIKES),
       comments: getCommentsArray(getRandomInt(1, 6))
     };
     randomData.push(object);
@@ -57,9 +64,10 @@ const createPhotoArray = function () {
 };
 
 const renderPhoto = function (photo) {
-  let pictureElement = pictureTemplate.cloneNode(true);
+  const pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector(`.picture__img`).src = photo.url;
+  pictureElement.querySelector(`.picture__img`).alt = ALT_TEXT;
   pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
   pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
 
@@ -70,14 +78,14 @@ const showTitle = function () {
   picturesTitle.classList.remove(`visually-hidden`);
 };
 
-const fillingElements = function () {
-  let fragment = document.createDocumentFragment();
+const fillElements = function () {
+  const fragment = document.createDocumentFragment();
   const photosArray = createPhotoArray();
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < NUMBER_PHOTOS; i++) {
     fragment.appendChild(renderPhoto(photosArray[i]));
   }
   pictures.appendChild(fragment);
 };
 
 showTitle();
-fillingElements();
+fillElements();
