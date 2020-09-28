@@ -36,11 +36,11 @@ const getRandomInt = function (min, max) {
 
 const getCommentsArray = function (numberOfComments) {
   const array = [];
-  for (let i = 0; i < numberOfComments - 1; i++) {
+  for (let i = 0; i < numberOfComments; i++) {
     const commentObj = {
       avatar: `img/avatar-` + getRandomInt(1, 6) + `.svg`,
-      message: commentsList[getRandomInt(1, 6)],
-      name: avatarNames[getRandomInt(1, 8)]
+      message: commentsList[getRandomInt(0, commentsList.length - 1)],
+      name: avatarNames[getRandomInt(0, avatarNames.length - 1)]
     };
     array.push(commentObj);
   }
