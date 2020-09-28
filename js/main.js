@@ -1,6 +1,5 @@
 'use strict';
 
-const ALT_TEXT = `Фотография`;
 const NUMBER_PHOTOS = 25;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
@@ -51,7 +50,7 @@ const getCommentsArray = function (numberOfComments) {
 const createPhotoArray = function () {
   const randomData = [];
 
-  for (let i = 1; i <= 25; i++) {
+  for (let i = 1; i <= NUMBER_PHOTOS; i++) {
     const object = {
       url: `photos/` + i + `.jpg`,
       description: `Описание фотографии`,
@@ -67,7 +66,7 @@ const renderPhoto = function (photo) {
   const pictureElement = pictureTemplate.cloneNode(true);
 
   pictureElement.querySelector(`.picture__img`).src = photo.url;
-  pictureElement.querySelector(`.picture__img`).alt = ALT_TEXT;
+  pictureElement.querySelector(`.picture__img`).alt = photo.description;
   pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
   pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
 
