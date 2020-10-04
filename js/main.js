@@ -24,11 +24,16 @@ const onUploadFormEscPress = function (evt) {
   }
 };
 
+const clickOnCancel = function () {
+  closeUploadForm();
+};
+
 const openUploadForm = function () {
   imgUpload.classList.remove(`hidden`);
   body.classList.add(`modal-open`);
 
-  uploadForm.addEventListener(`keydown`, onUploadFormEscPress);
+  document.addEventListener(`keydown`, onUploadFormEscPress);
+  uploadCancel.addEventListener(`click`, clickOnCancel);
 };
 
 const closeUploadForm = function () {
@@ -36,7 +41,8 @@ const closeUploadForm = function () {
   imgUpload.value = ``;
   body.classList.remove(`modal-open`);
 
-  uploadForm.removeEventListener(`keydown`, onUploadFormEscPress);
+  document.removeEventListener(`keydown`, onUploadFormEscPress);
+  uploadCancel.removeEventListener(`click`, clickOnCancel);
 };
 
 const commentsList = [
@@ -123,23 +129,14 @@ uploadForm.addEventListener(`change`, function () {
   openUploadForm();
 });
 
-uploadCancel.addEventListener(`click`, function () {
-  closeUploadForm();
-});
-
 /* ползунок */
 
 const effectLevelPin = document.querySelector(`.effect-level__pin`);
-let effectLevelValue = document.querySelector(`.effect-level__value`);
+const effectLevelValue = document.querySelector(`.effect-level__value`);
 const effectLevelLine = document.querySelector(`.effect-level__line`);
 const imgUploadPreviewWrapper = document.querySelector(`.img-upload__preview`);
 const imgUploadPreview = imgUploadPreviewWrapper.querySelector(`img`);
-const effectMarvin = document.querySelector(`#effect-marvin`);
-const effectSepia = document.querySelector(`#effect-sepia`);
-const effectChrome = document.querySelector(`#effect-chrome`);
-const effectPhobos = document.querySelector(`#effect-phobos`);
-const effectHeat = document.querySelector(`#effect-heat`);
-const effectNone = document.querySelector(`#effect-none`);
+const effects = document.querySelector(`.effects`);
 
 const truncated = function (num) {
   return Math.trunc(num * 10) / 10;
@@ -181,50 +178,42 @@ const applyFilterToImg = function (filterClass) {
   }
 };
 
-effectChrome.addEventListener(`click`, function () {
-  applyFilterToImg(`effects__preview--chrome`);
-  getImageFilter(`grayscale`, 1);
+effects.addEventListener(`click`, function (evt) {
+  if (evt.target.id === `effect-chrome`) {
+    applyFilterToImg(`effects__preview--chrome`);
+    getImageFilter(`grayscale`, 1);
+  } else if (evt.target.id === `effect-sepia`) {
+    applyFilterToImg(`effects__preview--sepia`);
+    getImageFilter(`sepia`, 1);
+  } else if (evt.target.id === `effect-marvin`) {
+    applyFilterToImg(`effects__preview--marvin`);
+    getImageFilter(`invert`, 100);
+  } else if (evt.target.id === `effect-phobos`) {
+    applyFilterToImg(`effects__preview--phobos`);
+    getImageFilter(`blur`, 3);
+  } else if (evt.target.id === `effect-heat`) {
+    applyFilterToImg(`effects__preview--heat`);
+    getImageFilter(`brightness`, 3);
+  } else if (evt.target.id === `effect-none`) {
+    applyFilterToImg(`none`);
+    getImageFilter(`none`);
+  }
 });
-
-effectSepia.addEventListener(`click`, function () {
-  applyFilterToImg(`effects__preview--sepia`);
-  getImageFilter(`sepia`, 1);
-});
-
-effectMarvin.addEventListener(`click`, function () {
-  applyFilterToImg(`effects__preview--marvin`);
-  getImageFilter(`invert`, 100);
-});
-
-effectPhobos.addEventListener(`click`, function () {
-  applyFilterToImg(`effects__preview--phobos`);
-  getImageFilter(`blur`, 3);
-});
-
-effectHeat.addEventListener(`click`, function () {
-  applyFilterToImg(`effects__preview--heat`);
-  getImageFilter(`brightness`, 3);
-});
-
-effectNone.addEventListener(`click`, function () {
-  applyFilterToImg(`none`);
-  getImageFilter(`none`);
-});
-
 
 effectLevelPin.addEventListener(`mouseup`, function () {
-  effectLevelValue = truncated(effectLevelPin.offsetLeft / effectLevelLine.offsetWidth);
+  let effectLevel = truncated(effectLevelPin.offsetLeft / effectLevelLine.offsetWidth);
+  effectLevelValue.textContent = effectLevel;
 
   if (imgUploadPreview.classList.contains(`effects__preview--chrome`)) {
-    getImageFilter(`grayscale`, effectLevelValue);
+    getImageFilter(`grayscale`, effectLevel);
   } else if (imgUploadPreview.classList.contains(`effects__preview--sepia`)) {
-    getImageFilter(`sepia`, effectLevelValue);
+    getImageFilter(`sepia`, effectLevel);
   } else if (imgUploadPreview.classList.contains(`effects__preview--marvin`)) {
-    getImageFilter(`invert`, effectLevelValue);
+    getImageFilter(`invert`, effectLevel);
   } else if (imgUploadPreview.classList.contains(`effects__preview--phobos`)) {
-    getImageFilter(`blur`, calculatingBlurEffect(effectLevelValue));
+    getImageFilter(`blur`, calculatingBlurEffect(effectLevel));
   } else if (imgUploadPreview.classList.contains(`effects__preview--heat`)) {
-    getImageFilter(`brightness`, effectLevelValue);
+    getImageFilter(`brightness`, effectLevel);
   }
 });
 
