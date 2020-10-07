@@ -223,24 +223,15 @@ const inputHashtag = document.querySelector(`.text__hashtags`);
 const uploadSelectImageForm = document.querySelector(`#upload-select-image`);
 const MAX_HASHTAGS = 5;
 
-const hasDuplicates = function (array) {
-  array = array.map(function (e) {
-    return e.toUpperCase();
-  });
-  for (let i = 0; i < array.length; i++) {
-    if (array.includes(array[i], i + 1)) {
-      return true;
-    }
-  }
-  return false;
+const hasDuplicates = function (item, index, array) {
+  return array.indexOf(item, index + 1) >=0;
 };
 
 const hashtagValidation = function () {
-  const arrayHashTags = inputHashtag.value.split(` `);
+  const arrayHashTags = inputHashtag.value.trim().toLowerCase().split(` `);
+  const re = /^#[\w\a-я]*$/;
 
   for (let hashTag of arrayHashTags) {
-    const re = /^#[\w\a-я]*$/;
-
     if (hashTag.length === 1 && hashTag[0] === `#`) {
       inputHashtag.setCustomValidity(`хеш-тег не может состоять только из одной решётки`);
     } else if (!re.test(hashTag)) {
@@ -249,7 +240,7 @@ const hashtagValidation = function () {
       inputHashtag.setCustomValidity(`хеш-тег не может может быть длинее ${MAX_LENGTH_HASHTAG} символов`);
     } else if (arrayHashTags.length > MAX_HASHTAGS) {
       inputHashtag.setCustomValidity(`Нельзя указать больше пяти хэш-тегов`);
-    } else if (hasDuplicates(arrayHashTags)) {
+    } else if (arrayHashTags.some(hasDuplicates)) {
       inputHashtag.setCustomValidity(`Один и тот же хэш-тег не может быть использован дважды`);
     } else {
       inputHashtag.setCustomValidity(``);
