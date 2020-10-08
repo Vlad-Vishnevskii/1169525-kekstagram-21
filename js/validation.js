@@ -5,12 +5,13 @@
   const uploadSelectImageForm = document.querySelector(`#upload-select-image`);
   const MAX_HASHTAGS = 5;
   const MAX_LENGTH_HASHTAG = 20;
+  const MIN_LENGTH_HASHTAG = 1;
 
   const hasDuplicates = function (item, index, array) {
     return array.indexOf(item, index + 1) >= 0;
   };
 
-  const hashtagValidation = function () {
+  const onHashtagValidation = function () {
     let arrayHashTags = inputHashtag.value.trim().toLowerCase().split(` `);
     const re = /^#[\w\a-я]*$/;
     const errors = [];
@@ -19,8 +20,10 @@
     });
 
     for (let hashTag of arrayHashTags) {
-      if (hashTag.length === 1 && hashTag[0] === `#`) {
-        errors.push(`хеш-тег не может состоять только из одной решётки`);
+      if (hashTag[0] !== `#`) {
+        errors.push(`Первый символ хеш-тега должен быть #`);
+      } else if (hashTag.length <= MIN_LENGTH_HASHTAG) {
+        errors.push(`хеш-тег должен быть длинее одного символа`);
       } else if (!re.test(hashTag)) {
         errors.push(`Хэштег начинается с # не может содержать спецсимволы`);
       } else if (hashTag.length > MAX_LENGTH_HASHTAG) {
@@ -44,7 +47,5 @@
     uploadSelectImageForm.reportValidity();
   };
 
-  inputHashtag.addEventListener(`input`, function () {
-    hashtagValidation();
-  });
+  inputHashtag.addEventListener(`input`, onHashtagValidation);
 })();
