@@ -22,16 +22,18 @@
     picturesTitle.classList.remove(`visually-hidden`);
   };
 
-  const fillElements = function () {
+  const fillElements = function (data) {
     const fragment = document.createDocumentFragment();
-    const photosArray = window.data.createPhotoArray();
-    for (let i = 0; i < window.data.NUMBER_PHOTOS; i++) {
-      fragment.appendChild(renderPhoto(photosArray[i]));
+
+    for (let i = 0; i < data.length; i++) {
+      fragment.appendChild(renderPhoto(data[i]));
     }
     pictures.appendChild(fragment);
   };
 
   showTitle();
 
-  fillElements();
+  window.picture = {
+    render: fillElements
+  };
 })();
