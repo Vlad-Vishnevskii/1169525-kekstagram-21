@@ -9,6 +9,7 @@
     window.picture.render(offers);
     window.filter.onFilterDefault(offers);
     window.filter.onFilterRandom(offers);
+    window.filter.onFilterDiscussed(offers);
     window.bigPicture.fillBigPicture(offers[0]);
   };
 

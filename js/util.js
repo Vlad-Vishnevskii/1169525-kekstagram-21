@@ -21,15 +21,17 @@
   };
 
   const getDiscussedPhoto = function (arr) {
-    arr.sort(function (a, b) {
-      if (a.comments.length > b.comments.length) {
-        return 1;
-      }
-      if (a.comments.length < b.comments.length) {
+    const newArr = arr.slice();
+    newArr.sort(function (a, b) {
+      if (a.comments > b.comments) {
         return -1;
+      }
+      if (a.comments < b.comments) {
+        return 1;
       }
       return 0;
     });
+    return newArr;
   };
 
   window.util = {
