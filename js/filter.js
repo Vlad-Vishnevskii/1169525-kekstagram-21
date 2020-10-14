@@ -14,14 +14,14 @@
     filterRandom.addEventListener(`click`, function () {
       const newArray = window.util.getRandomUniqueElement(data, MAX_UNIQUE_PHOTOS);
       window.picture.delElements(pictureForDell);
-      window.picture.render(newArray);
+      window.util.debounce(window.picture.render(newArray));
     });
   };
 
   const onFilterDefault = function (data) {
     filterDefault.addEventListener(`click`, function () {
       window.picture.delElements(pictureForDell);
-      window.picture.render(data);
+      window.util.debounce(window.picture.render(data));
     });
   };
 
@@ -29,7 +29,7 @@
     filterDiscussed.addEventListener(`click`, function () {
       const newArray = window.util.getDiscussedPhoto(data);
       window.picture.delElements(pictureForDell);
-      window.picture.render(newArray);
+      window.util.debounce(window.picture.render(newArray));
     });
   };
 
