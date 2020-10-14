@@ -31,9 +31,16 @@
     pictures.appendChild(fragment);
   };
 
+  const delElements = function (array) {
+    while (array[0]) {
+      array[0].parentNode.removeChild(array[0]);
+    }
+  };
+
   showTitle();
 
   window.picture = {
-    render: fillElements
+    render: fillElements,
+    delElements: delElements
   };
 })();

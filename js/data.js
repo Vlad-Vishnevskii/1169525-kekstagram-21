@@ -3,11 +3,13 @@
 (function () {
   let offers = [];
 
+
   const successHandler = function (data) {
     offers = data;
     window.picture.render(offers);
-    window.bigPicture.fillBigPicture(offers);
-    window.bigPicture.fillBigPictureComments(offers);
+    window.filter.onFilterDefault(offers);
+    window.filter.onFilterRandom(offers);
+    window.bigPicture.fillBigPicture(offers[0]);
   };
 
   const loadOffers = function () {
