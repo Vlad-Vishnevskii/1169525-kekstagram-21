@@ -32,9 +32,9 @@
   };
 
   const delElements = function (array) {
-    while (array[0]) {
-      array[0].parentNode.removeChild(array[0]);
-    }
+    array.forEach(function (item) {
+      item.remove();
+    });
   };
 
   showTitle();

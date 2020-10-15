@@ -22,6 +22,7 @@
 
   const fillComments = function (element) {
     const fragment = document.createDocumentFragment();
+    socialComments.innerHTML = ``;
 
     for (let i = 0; i < element.comments.length; i++) {
       const socialCommentClone = socialComment.cloneNode(true);
@@ -39,12 +40,11 @@
     commentsCount.textContent = element.comments.length;
     socialCaption.textContent = element.description;
 
-    socialComments.innerHTML = ``;
     fillComments(element);
     showBigPhoto();
   };
 
   window.bigPicture = {
-    fillBigPicture: fillBigPicture
+    render: fillBigPicture
   };
 })();

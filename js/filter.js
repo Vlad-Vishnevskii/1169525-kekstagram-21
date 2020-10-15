@@ -6,7 +6,6 @@
   const filterDefault = document.querySelector(`#filter-default`);
   const MAX_UNIQUE_PHOTOS = 10;
   const filterDiscussed = document.querySelector(`#filter-discussed`);
-  const pictureForDell = document.getElementsByClassName(`picture`);
   const imgFiltersForm = document.querySelector(`.img-filters__form`);
 
   imgFilters.classList.remove(`img-filters--inactive`);
@@ -19,10 +18,11 @@
 
   const onImgFiltersForm = function (data) {
     imgFiltersForm.addEventListener(`click`, function (evt) {
+      const pictureForDell = document.querySelectorAll(`.picture`);
       switch (evt.target) {
         case filterDiscussed:
-          const newArrayDiscussed = getDiscussedPhoto(data.slice());
           window.picture.delElements(pictureForDell);
+          const newArrayDiscussed = getDiscussedPhoto(data.slice());
           window.util.debounce(window.picture.render(newArrayDiscussed));
           break;
         case filterRandom:
