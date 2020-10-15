@@ -7,35 +7,40 @@
   const MAX_UNIQUE_PHOTOS = 10;
   const filterDiscussed = document.querySelector(`#filter-discussed`);
   const pictureForDell = document.getElementsByClassName(`picture`);
+  const imgFiltersForm = document.querySelector(`.img-filters__form`);
 
   imgFilters.classList.remove(`img-filters--inactive`);
 
-  const onFilterRandom = function (data) {
-    filterRandom.addEventListener(`click`, function () {
-      const newArray = window.util.getRandomUniqueElement(data, MAX_UNIQUE_PHOTOS);
-      window.picture.delElements(pictureForDell);
-      window.util.debounce(window.picture.render(newArray));
+  const getDiscussedPhoto = function (data) {
+    return data.sort(function (a, b) {
+      return b.comments.length - a.comments.length;
     });
   };
 
-  const onFilterDefault = function (data) {
-    filterDefault.addEventListener(`click`, function () {
-      window.picture.delElements(pictureForDell);
-      window.util.debounce(window.picture.render(data));
-    });
-  };
-
-  const onFilterDiscussed = function (data) {
-    filterDiscussed.addEventListener(`click`, function () {
-      const newArray = window.util.getDiscussedPhoto(data);
-      window.picture.delElements(pictureForDell);
-      window.util.debounce(window.picture.render(newArray));
+  const onImgFiltersForm = function (data) {
+    imgFiltersForm.addEventListener(`click`, function (evt) {
+      switch (evt.target) {
+        case filterDiscussed:
+          const newArrayDiscussed = getDiscussedPhoto(data.slice());
+          window.picture.delElements(pictureForDell);
+          window.util.debounce(window.picture.render(newArrayDiscussed));
+          break;
+        case filterRandom:
+          const newArrayRandom = data.slice(0, MAX_UNIQUE_PHOTOS).sort(function () {
+            return window.util.getRandomInt(-1, 1);
+          });
+          window.picture.delElements(pictureForDell);
+          window.util.debounce(window.picture.render(newArrayRandom));
+          break;
+        case filterDefault:
+          window.picture.delElements(pictureForDell);
+          window.util.debounce(window.picture.render(data));
+          break;
+      }
     });
   };
 
   window.filter = {
-    onFilterRandom: onFilterRandom,
-    onFilterDefault: onFilterDefault,
-    onFilterDiscussed: onFilterDiscussed
+    onImgFiltersForm: onImgFiltersForm
   };
 })();

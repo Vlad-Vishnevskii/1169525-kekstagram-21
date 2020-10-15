@@ -7,9 +7,7 @@
   const successHandler = function (data) {
     offers = data;
     window.picture.render(offers);
-    window.filter.onFilterDefault(offers);
-    window.filter.onFilterRandom(offers);
-    window.filter.onFilterDiscussed(offers);
+    window.filter.onImgFiltersForm(offers);
     window.bigPicture.fillBigPicture(offers[0]);
   };
 

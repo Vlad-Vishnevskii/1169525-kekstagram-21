@@ -2,7 +2,8 @@
 
 (function () {
   const bigPicture = document.querySelector(`.big-picture`);
-  const bigPictureImg = bigPicture.querySelector(`img`);
+  const bigPictureImgWrapper = document.querySelector(`.big-picture__img`);
+  const bigPictureImg = bigPictureImgWrapper.querySelector(`img`);
   const likesCount = document.querySelector(`.likes-count`);
   const commentsCount = document.querySelector(`.comments-count`);
   const socialCaption = document.querySelector(`.social__caption`);
@@ -12,10 +13,25 @@
   const commentsLoader = document.querySelector(`.comments-loader`);
   const body = document.querySelector(`body`);
 
-  bigPicture.classList.remove(`hidden`);
-  socialCommentCount.classList.add(`hidden`);
-  commentsLoader.classList.add(`hidden`);
-  body.classList.add(`modal-open`);
+  const showBigPhoto = function () {
+    socialCommentCount.classList.add(`hidden`);
+    commentsLoader.classList.add(`hidden`);
+    body.classList.add(`modal-open`);
+    bigPicture.classList.remove(`hidden`);
+  };
+
+  const fillComments = function (element) {
+    const fragment = document.createDocumentFragment();
+
+    for (let i = 0; i < element.comments.length; i++) {
+      const socialCommentClone = socialComment.cloneNode(true);
+      socialCommentClone.querySelector(`.social__picture`).src = element.comments[i].avatar;
+      socialCommentClone.querySelector(`.social__picture`).alt = element.comments[i].name;
+      socialCommentClone.querySelector(`.social__text`).textContent = element.comments[i].message;
+      fragment.appendChild(socialCommentClone);
+    }
+    socialComments.appendChild(fragment);
+  };
 
   const fillBigPicture = function (element) {
     bigPictureImg.src = element.url;
@@ -24,14 +40,8 @@
     socialCaption.textContent = element.description;
 
     socialComments.innerHTML = ``;
-
-    for (let i = 0; i < element.comments.length; i++) {
-      const socialCommentClone = socialComment.cloneNode(true);
-      socialCommentClone.querySelector(`.social__picture`).src = element.comments[i].avatar;
-      socialCommentClone.querySelector(`.social__picture`).alt = element.comments[i].name;
-      socialCommentClone.querySelector(`.social__text`).textContent = element.comments[i].message;
-      socialComments.appendChild(socialCommentClone);
-    }
+    fillComments(element);
+    showBigPhoto();
   };
 
   window.bigPicture = {
