@@ -36,6 +36,7 @@
       item.remove();
     });
   };
+
   showTitle();
 
   window.picture = {
