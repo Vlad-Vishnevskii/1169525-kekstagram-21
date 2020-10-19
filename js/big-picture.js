@@ -67,9 +67,7 @@
   };
 
   const getIndexPicture = function (data, evt) {
-    const picture = document.querySelector(`.picture`);
-    const pictureImg = picture.querySelector(`img`);
-    if (evt.target === picture || evt.target === pictureImg) {
+    if (evt.target.classList.contains(`picture__img`) || evt.target.classList.contains(`picture`)) {
       let indexCurrentPicture;
       let path;
       if (evt.key === ENTER) {
