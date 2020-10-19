@@ -8,7 +8,7 @@
     offers = data;
     window.picture.render(offers);
     window.filter.onImgFiltersForm(offers);
-    window.bigPicture.render(offers[0]);
+    window.bigPicture.onPictureClick(offers);
   };
 
   const loadOffers = function () {

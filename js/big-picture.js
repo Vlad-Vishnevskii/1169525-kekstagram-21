@@ -12,12 +12,38 @@
   const socialCommentCount = document.querySelector(`.social__comment-count`);
   const commentsLoader = document.querySelector(`.comments-loader`);
   const body = document.querySelector(`body`);
+  const pictures = document.querySelector(`.pictures`);
+  const PATH_LENGTH = 13;
+  const bigPictureCancel = document.querySelector(`.big-picture__cancel`);
+  const ESCAPE = `Escape`;
+  const ENTER = `Enter`;
+  const imgUploadInput = document.querySelector(`.img-upload__input`);
+
+  const onCancelBigPhotoClick = function () {
+    closeBigPhoto();
+  };
+
+  const onBigPhotoEscPress = function (evt) {
+    if (evt.key === ESCAPE) {
+      evt.preventDefault();
+      closeBigPhoto();
+    }
+  };
 
   const showBigPhoto = function () {
     socialCommentCount.classList.add(`hidden`);
     commentsLoader.classList.add(`hidden`);
     body.classList.add(`modal-open`);
     bigPicture.classList.remove(`hidden`);
+
+    bigPictureCancel.addEventListener(`click`, onCancelBigPhotoClick);
+  };
+
+  const closeBigPhoto = function () {
+    bigPicture.classList.add(`hidden`);
+    bigPictureCancel.removeEventListener(`click`, onCancelBigPhotoClick);
+    pictures.removeEventListener(`keydown`, onBigPhotoEscPress);
+    body.classList.remove(`modal-open`);
   };
 
   const fillComments = function (element) {
@@ -39,12 +65,54 @@
     likesCount.textContent = element.likes;
     commentsCount.textContent = element.comments.length;
     socialCaption.textContent = element.description;
+  };
 
-    fillComments(element);
-    showBigPhoto();
+  const getIndexPicture = function (data, evt) {
+    if (evt.target !== imgUploadInput) {
+      let indexCurrentPicture;
+      let path;
+      if (evt.key === ENTER) {
+        const element = evt.target;
+        let elementImg = element.querySelector(`img`);
+        path = elementImg.src;
+      } else {
+        path = evt.target.src;
+      }
+
+      path = path.substring(path.length - PATH_LENGTH);
+      if (path[0] === `/`) {
+        path = path.slice(1);
+      }
+
+      let i = -1;
+      for (let element of data) {
+        i++;
+        if (element.url === path) {
+          indexCurrentPicture = i;
+        }
+      }
+
+      showBigPhoto();
+      pictures.addEventListener(`keydown`, onBigPhotoEscPress);
+      fillComments(data[indexCurrentPicture]);
+      fillBigPicture(data[indexCurrentPicture]);
+    }
+  };
+
+  const onPictureClick = function (data) {
+    pictures.addEventListener(`click`, function (evt) {
+      getIndexPicture(data, evt);
+    });
+
+    pictures.addEventListener(`keydown`, function (evt) {
+      if (evt.key === ENTER) {
+        getIndexPicture(data, evt);
+      }
+    });
   };
 
   window.bigPicture = {
-    render: fillBigPicture
+    onPictureClick: onPictureClick
   };
+
 })();

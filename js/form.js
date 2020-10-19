@@ -6,9 +6,10 @@
   const body = document.querySelector(`body`);
   const uploadCancel = imgUpload.querySelector(`#upload-cancel`);
   const ESCAPE = `Escape`;
+  const textDescription = document.querySelector(`.text__description`);
 
   const onUploadFormEscPress = function (evt) {
-    if (evt.key === ESCAPE) {
+    if (evt.key === ESCAPE && textDescription !== document.activeElement) {
       evt.preventDefault();
       closeUploadForm();
     }
