@@ -17,7 +17,6 @@
   const bigPictureCancel = document.querySelector(`.big-picture__cancel`);
   const ESCAPE = `Escape`;
   const ENTER = `Enter`;
-  const imgUploadInput = document.querySelector(`.img-upload__input`);
 
   const onCancelBigPhotoClick = function () {
     closeBigPhoto();
@@ -68,7 +67,9 @@
   };
 
   const getIndexPicture = function (data, evt) {
-    if (evt.target !== imgUploadInput) {
+    const picture = document.querySelector(`.picture`);
+    const pictureImg = picture.querySelector(`img`);
+    if (evt.target === picture || evt.target === pictureImg) {
       let indexCurrentPicture;
       let path;
       if (evt.key === ENTER) {
