@@ -15,33 +15,33 @@
   const pictures = document.querySelector(`.pictures`);
   const PATH_LENGTH = 13;
   const bigPictureCancel = document.querySelector(`.big-picture__cancel`);
-  const ESCAPE = `Escape`;
-  const ENTER = `Enter`;
 
   const onCancelBigPhotoClick = function () {
     closeBigPhoto();
   };
 
   const onBigPhotoEscPress = function (evt) {
-    if (evt.key === ESCAPE) {
+    if (evt.key === window.constants.ESCAPE) {
       evt.preventDefault();
       closeBigPhoto();
     }
   };
 
-  const showBigPhoto = function () {
+  const showBigPhoto = function (data, evt) {
     socialCommentCount.classList.add(`hidden`);
     commentsLoader.classList.add(`hidden`);
-    body.classList.add(`modal-open`);
-    bigPicture.classList.remove(`hidden`);
 
+    getIndexPicture(data, evt);
+
+    body.classList.add(`modal-open`);
     bigPictureCancel.addEventListener(`click`, onCancelBigPhotoClick);
+    document.addEventListener(`keydown`, onBigPhotoEscPress);
   };
 
   const closeBigPhoto = function () {
     bigPicture.classList.add(`hidden`);
     bigPictureCancel.removeEventListener(`click`, onCancelBigPhotoClick);
-    pictures.removeEventListener(`keydown`, onBigPhotoEscPress);
+    document.removeEventListener(`keydown`, onBigPhotoEscPress);
     body.classList.remove(`modal-open`);
   };
 
@@ -67,14 +67,14 @@
   };
 
   const getIndexPicture = function (data, evt) {
-    if (evt.target.classList.contains(`picture__img`) || evt.target.classList.contains(`picture`)) {
+    if (evt.target.closest(`.picture__img`) || evt.target.closest(`.picture`)) {
       let indexCurrentPicture;
       let path;
-      if (evt.key === ENTER) {
+      if (evt.target.classList.contains(`picture`)) {
         const element = evt.target;
         let elementImg = element.querySelector(`img`);
         path = elementImg.src;
-      } else {
+      } else  {
         path = evt.target.src;
       }
 
@@ -91,8 +91,7 @@
         }
       }
 
-      showBigPhoto();
-      pictures.addEventListener(`keydown`, onBigPhotoEscPress);
+      bigPicture.classList.remove(`hidden`);
       fillComments(data[indexCurrentPicture]);
       fillBigPicture(data[indexCurrentPicture]);
     }
@@ -100,13 +99,7 @@
 
   const onPictureClick = function (data) {
     pictures.addEventListener(`click`, function (evt) {
-      getIndexPicture(data, evt);
-    });
-
-    pictures.addEventListener(`keydown`, function (evt) {
-      if (evt.key === ENTER) {
-        getIndexPicture(data, evt);
-      }
+      showBigPhoto(data, evt);
     });
   };
 

@@ -28,8 +28,7 @@
     min: 25,
     max: 100
   };
-  const scaleControlSmaller = document.querySelector(`.scale__control--smaller`);
-  const scaleControlBigger = document.querySelector(`.scale__control--bigger`);
+  const scale = document.querySelector(`.scale`);
   const scaleControlValue = document.querySelector(`.scale__control--value`);
   const SCALE_STEP = 25;
   let currentScaleValue = DEFAULT_SCALE_VALUE.max;
@@ -51,18 +50,16 @@
     }
   };
 
-  const changePhotoScale = function (evt) {
-    if (evt.target.classList.contains(`scale__control--smaller`)) {
+  const onScaleControlChange = function (evt) {
+    if (evt.target.closest(`.scale__control--smaller`)) {
       reduceScale();
     }
-    if (evt.target.classList.contains(`scale__control--bigger`)) {
+    if (evt.target.closest(`.scale__control--bigger`)) {
       raiseScale();
     }
   };
 
-  scaleControlSmaller.addEventListener(`click`, changePhotoScale);
-  scaleControlBigger.addEventListener(`click`, changePhotoScale);
-
+  scale.addEventListener(`click`, onScaleControlChange);
   //
 
   const changeEffect = function (currentCoord) {
