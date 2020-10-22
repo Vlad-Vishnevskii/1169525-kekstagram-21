@@ -6,6 +6,7 @@
   const pictureTemplate = document.querySelector(`#picture`)
       .content
       .querySelector(`.picture`);
+  const imgFilters = document.querySelector(`.img-filters`);
 
   const renderPhoto = function (photo) {
     const pictureElement = pictureTemplate.cloneNode(true);
@@ -31,8 +32,9 @@
     pictures.appendChild(fragment);
   };
 
-  const delElements = function (array) {
-    array.forEach(function (item) {
+  const delElements = function () {
+    const picturesCards = document.querySelectorAll(`.picture`);
+    picturesCards.forEach(function (item) {
       item.remove();
     });
   };
@@ -68,7 +70,6 @@
   };
 
   const getIndexPicture = function (data, evt) {
-
     if (evt.target.closest(`a`)) {
       let indexCurrentPicture;
       let path;
@@ -109,14 +110,24 @@
     }
   };
 
+  const activeFilter = function (filter) {
+    const lastActiveFilter = document.querySelector(`.img-filters__button--active`);
+    lastActiveFilter.classList.remove(`img-filters__button--active`);
+    if (filter.classList.contains(`img-filters__button--active`) === false) {
+      filter.classList.add(`img-filters__button--active`);
+    }
+  };
+
   showTitle();
+  imgFilters.classList.remove(`img-filters--inactive`);
 
   window.picture = {
     picturesBlock: pictures,
     render: fillElements,
-    delElements: delElements,
+    remove: delElements,
     getIndexPicture: getIndexPicture,
     onCancelBigPhotoClick: onCancelBigPhotoClick,
-    onBigPhotoEscPress: onBigPhotoEscPress
+    onBigPhotoEscPress: onBigPhotoEscPress,
+    activeFilter: activeFilter
   };
 })();
