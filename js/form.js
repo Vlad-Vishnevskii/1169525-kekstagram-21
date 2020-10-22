@@ -1,7 +1,8 @@
 'use strict';
 
 (function () {
-  const uploadForm = document.querySelector(`#upload-file`);
+  const uploadForm = document.querySelector(`.img-upload__form`);
+  const uploadFile = document.querySelector(`#upload-file`);
   const imgUpload = document.querySelector(`.img-upload__overlay`);
   const body = document.querySelector(`body`);
   const uploadCancel = imgUpload.querySelector(`#upload-cancel`);
@@ -35,7 +36,16 @@
     uploadCancel.removeEventListener(`click`, onCancelClick);
   };
 
-  uploadForm.addEventListener(`change`, function () {
+  uploadFile.addEventListener(`change`, function () {
     openUploadForm();
   });
+
+  uploadForm.addEventListener(`submit`, function (evt) {
+    window.backend.upload(new FormData(uploadForm), function () {
+      imgUpload.classList.add(`hidden`);
+    });
+    evt.preventDefault();
+    uploadForm.reset();
+  });
+
 })();
