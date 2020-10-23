@@ -19,6 +19,10 @@
   const popupSuccess = document.querySelector(`#success`)
       .content
       .querySelector(`.success`);
+  const popupError = document.querySelector(`#error`)
+      .content
+      .querySelector(`.error`);
+
   const main = document.querySelector(`main`);
   const body = document.querySelector(`body`);
 
@@ -44,14 +48,12 @@
     }
   };
 
-  const showPopup = function () {
-    const popupElement = popupSuccess.cloneNode(true);
+  const showPopup = function (popupType) {
+    const popupElement = popupType.cloneNode(true);
     const fragment = document.createDocumentFragment();
     fragment.appendChild(popupElement);
     main.appendChild(fragment);
-
-    const popup = document.querySelector(`.success`);
-    popup.addEventListener(`click`, onPopupClick);
+    popupElement.addEventListener(`click`, onPopupClick);
     document.addEventListener(`keydown`, onPopupEscPress);
   };
 
@@ -87,7 +89,9 @@
     xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
-        showPopup();
+        showPopup(popupSuccess);
+      } else {
+        showPopup(popupError);
       }
     });
 
