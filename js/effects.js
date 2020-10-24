@@ -5,6 +5,7 @@
     min: 0,
     max: 100
   };
+
   const MAX_VALUE_FILTER = {
     chrome: 1,
     sepia: 1,
@@ -21,6 +22,45 @@
   const effectLevelValue = imgUploadEffectLevel.querySelector(`.effect-level__value`);
   const effectLevelLine = imgUploadEffectLevel.querySelector(`.effect-level__line`);
   let currentFilter = null;
+
+  // маштаб
+  const DEFAULT_SCALE_VALUE = {
+    min: 25,
+    max: 100
+  };
+  const scale = document.querySelector(`.scale`);
+  const scaleControlValue = document.querySelector(`.scale__control--value`);
+  const SCALE_STEP = 25;
+  let currentScaleValue = DEFAULT_SCALE_VALUE.max;
+  scaleControlValue.value = `${DEFAULT_SCALE_VALUE.max}%`;
+
+  const reduceScale = function () {
+    if (currentScaleValue > DEFAULT_SCALE_VALUE.min && currentScaleValue <= DEFAULT_SCALE_VALUE.max) {
+      currentScaleValue -= SCALE_STEP;
+      scaleControlValue.value = `${currentScaleValue}%`;
+      imgUploadPreview.style.transform = `scale(${currentScaleValue / 100})`;
+    }
+  };
+
+  const raiseScale = function () {
+    if (currentScaleValue >= DEFAULT_SCALE_VALUE.min && currentScaleValue < DEFAULT_SCALE_VALUE.max) {
+      currentScaleValue += SCALE_STEP;
+      scaleControlValue.value = `${currentScaleValue}%`;
+      imgUploadPreview.style.transform = `scale(${currentScaleValue / 100})`;
+    }
+  };
+
+  const onScaleControlChange = function (evt) {
+    if (evt.target.closest(`.scale__control--smaller`)) {
+      reduceScale();
+    }
+    if (evt.target.closest(`.scale__control--bigger`)) {
+      raiseScale();
+    }
+  };
+
+  scale.addEventListener(`click`, onScaleControlChange);
+  //
 
   const changeEffect = function (currentCoord) {
     const value = (MAX_VALUE_FILTER[currentFilter] * currentCoord) / 100;
