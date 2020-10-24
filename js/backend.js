@@ -48,7 +48,7 @@
     xhr.addEventListener(`load`, function () {
       if (xhr.status === StatusCode.OK) {
         onSuccess(xhr.response);
-        window.popup.show(window.popup.success);
+        window.popup.showSuccess();
       } else {
         window.popup.show(window.popup.error);
       }

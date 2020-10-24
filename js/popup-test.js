@@ -4,6 +4,9 @@
   const popupSuccess = document.querySelector(`#success`)
       .content
       .querySelector(`.success`);
+  const popupError = document.querySelector(`#error`)
+      .content
+      .querySelector(`.error`);
   const main = document.querySelector(`main`);
   const body = document.querySelector(`body`);
 
@@ -29,14 +32,16 @@
     }
   };
 
-  const showPopupSuccess = function () {
-    const popupElement = popupSuccess.cloneNode(true);
+  const showPopup = function (popupType) {
+    const popupElement = popupType.cloneNode(true);
     main.appendChild(popupElement);
     popupElement.addEventListener(`click`, onPopupClick);
     document.addEventListener(`keydown`, onPopupEscPress);
   };
 
   window.popup = {
-    showSuccess: showPopupSuccess
+    success: popupSuccess,
+    error: popupError,
+    show: showPopup
   };
 })();

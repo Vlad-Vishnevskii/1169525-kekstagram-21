@@ -31,6 +31,7 @@
     likesCount.textContent = element.likes;
     commentsCount.textContent = element.comments.length;
     socialCaption.textContent = element.description;
+    fillComments(element);
   };
 
   const onCancelBigPhotoClick = function () {
@@ -48,9 +49,7 @@
     socialCommentCount.classList.add(`hidden`);
     body.classList.add(`modal-open`);
     bigPicture.classList.remove(`hidden`);
-
     fillBigPicture(element);
-    fillComments(element);
     bigPictureCancel.addEventListener(`click`, onCancelBigPhotoClick);
     document.addEventListener(`keydown`, onBigPhotoEscPress);
   };

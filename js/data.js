@@ -12,13 +12,8 @@
   };
 
   pictures.addEventListener(`click`, function (evt) {
-    let target = evt.target;
-    if (target.closest(`.picture`)) {
-      if (target.classList.contains(`picture`)) {
-        let element = evt.target;
-        let img = element.querySelector(`.picture__img`);
-        window.bigPicture.showBigPhoto(offers[img.dataset.id]);
-      }
+    let target = evt.target.closest(`.picture`);
+    if (target) {
       window.bigPicture.showBigPhoto(offers[target.dataset.id]);
     }
   });
