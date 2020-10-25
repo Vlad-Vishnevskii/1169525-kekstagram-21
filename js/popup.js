@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  const popupSuccess = document.querySelector(`#success`)
-      .content
-      .querySelector(`.success`);
   const main = document.querySelector(`main`);
   const body = document.querySelector(`body`);
 
@@ -29,14 +26,14 @@
     }
   };
 
-  const showPopupSuccess = function () {
-    const popupElement = popupSuccess.cloneNode(true);
+  const showPopup = function (popupType) {
+    const popupElement = popupType.cloneNode(true);
     main.appendChild(popupElement);
     popupElement.addEventListener(`click`, onPopupClick);
     document.addEventListener(`keydown`, onPopupEscPress);
   };
 
   window.popup = {
-    showSuccess: showPopupSuccess
+    show: showPopup
   };
 })();

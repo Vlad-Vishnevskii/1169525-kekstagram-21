@@ -25,7 +25,7 @@
   };
 
   const loadOffers = function () {
-    window.backend.download(successHandler);
+    window.backend.download(successHandler, window.popup.showError);
   };
 
   const onFiltersClick = function (evt) {

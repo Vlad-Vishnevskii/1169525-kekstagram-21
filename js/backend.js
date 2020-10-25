@@ -16,7 +16,7 @@
 
   const TIMEOUT_IN_MS = 10000;
 
-  const download = function (onSuccess, onError) {
+  const createXhr = function (onSuccess, onError, method, url, data) {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
@@ -37,25 +37,16 @@
 
     xhr.timeout = TIMEOUT_IN_MS;
 
-    xhr.open(`GET`, URL);
-    xhr.send();
+    xhr.open(method, url);
+    xhr.send(data);
   };
 
-  const upload = function (data, onSuccess) {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = `json`;
+  const download = function (onSuccess, onError) {
+    createXhr(onSuccess, onError, `GET`, URL);
+  };
 
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-        window.popup.showSuccess();
-      } else {
-        window.popup.show(window.popup.error);
-      }
-    });
-
-    xhr.open(`POST`, URL_UPLOAD);
-    xhr.send(data);
+  const upload = function (data, onSuccess, onError) {
+    createXhr(onSuccess, onError, `POST`, URL_UPLOAD, data);
   };
 
   window.backend = {

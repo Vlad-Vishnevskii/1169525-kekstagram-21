@@ -7,6 +7,12 @@
   const body = document.querySelector(`body`);
   const uploadCancel = imgUpload.querySelector(`#upload-cancel`);
   const textDescription = document.querySelector(`.text__description`);
+  const popupSuccess = document.querySelector(`#success`)
+      .content
+      .querySelector(`.success`);
+  const popupError = document.querySelector(`#error`)
+      .content
+      .querySelector(`.error`);
 
   const onUploadFormEscPress = function (evt) {
     if (evt.key === window.constants.ESCAPE && textDescription !== document.activeElement) {
@@ -40,10 +46,21 @@
     openUploadForm();
   });
 
+  const successSend = function () {
+    imgUpload.classList.add(`hidden`);
+    window.popup.show(popupSuccess);
+  };
+
+  const errorSend = function (errorMessage) {
+    imgUpload.classList.add(`hidden`);
+    window.popup.show(popupError);
+    const block = document.querySelector(`.error`);
+    let popupTitle = block.querySelector(`.error__title`);
+    popupTitle.textContent = errorMessage;
+  };
+
   uploadForm.addEventListener(`submit`, function (evt) {
-    window.backend.upload(new FormData(uploadForm), function () {
-      imgUpload.classList.add(`hidden`);
-    });
+    window.backend.upload(new FormData(uploadForm), successSend, errorSend);
     evt.preventDefault();
     uploadForm.reset();
   });
