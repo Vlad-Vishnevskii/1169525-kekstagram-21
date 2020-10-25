@@ -65,4 +65,5 @@
     uploadForm.reset();
   });
 
+  window.errorSend = errorSend;
 })();
