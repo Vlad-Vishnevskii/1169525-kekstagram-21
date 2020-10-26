@@ -11,19 +11,37 @@
   const socialCaption = document.querySelector(`.social__caption`);
   const socialComments = document.querySelector(`.social__comments`);
   const socialComment = document.querySelector(`.social__comment`);
+  let clickCounter = 0;
 
-  const fillComments = function (element) {
+  const commentsLoader = document.querySelector(`.comments-loader`);
+  const MAX_COMMENTS = 5;
+  let startIndexComments = 0;
+
+  const fillComments = function (element, indexComment) {
     const fragment = document.createDocumentFragment();
-    socialComments.innerHTML = ``;
+    if (indexComment === 0) {
+      socialComments.innerHTML = ``;
+    }
 
-    for (let i = 0; i < element.comments.length; i++) {
+    let counter = 0;
+    for (let i = indexComment; i < element.comments.length; i++) {
+      counter += 1;
       const socialCommentClone = socialComment.cloneNode(true);
       socialCommentClone.querySelector(`.social__picture`).src = element.comments[i].avatar;
       socialCommentClone.querySelector(`.social__picture`).alt = element.comments[i].name;
       socialCommentClone.querySelector(`.social__text`).textContent = element.comments[i].message;
       fragment.appendChild(socialCommentClone);
+      if (counter === MAX_COMMENTS) {
+        break;
+      }
     }
     socialComments.appendChild(fragment);
+    let socialCommentsCount = socialComments.childNodes;
+    if (element.comments.length < MAX_COMMENTS || socialCommentsCount.length === element.comments.length) {
+      commentsLoader.classList.add(`hidden`);
+      startIndexComments = 0;
+      clickCounter = 0;
+    }
   };
 
   const fillBigPicture = function (element) {
@@ -31,7 +49,16 @@
     likesCount.textContent = element.likes;
     commentsCount.textContent = element.comments.length;
     socialCaption.textContent = element.description;
-    fillComments(element);
+    fillComments(element, startIndexComments);
+
+    commentsLoader.addEventListener(`click`, function (evt) {
+      let target = evt.target.closest(`.comments-loader`);
+      if (target) {
+        clickCounter += 1;
+      }
+      startIndexComments = MAX_COMMENTS * clickCounter;
+      fillComments(element, startIndexComments);
+    });
   };
 
   const onCancelBigPhotoClick = function () {
@@ -47,6 +74,7 @@
 
   const showBigPhoto = function (element) {
     socialCommentCount.classList.add(`hidden`);
+    commentsLoader.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
     bigPicture.classList.remove(`hidden`);
     fillBigPicture(element);
