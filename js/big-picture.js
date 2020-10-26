@@ -1,20 +1,19 @@
 'use strict';
 
 (function () {
-  const bigPicture = document.querySelector(`.big-picture`);
-  const socialCommentCount = document.querySelector(`.social__comment-count`);
-  const body = document.querySelector(`body`);
-  const bigPictureCancel = document.querySelector(`.big-picture__cancel`);
-  const bigPictureImg = bigPicture.querySelector(`img`);
-  const likesCount = document.querySelector(`.likes-count`);
-  const commentsCount = document.querySelector(`.comments-count`);
-  const socialCaption = document.querySelector(`.social__caption`);
-  const socialComments = document.querySelector(`.social__comments`);
-  const socialComment = document.querySelector(`.social__comment`);
-  let clickCounter = 0;
-
-  const commentsLoader = document.querySelector(`.comments-loader`);
   const MAX_COMMENTS = 5;
+  const bigPicture = document.querySelector(`.big-picture`);
+  const socialCommentCount = bigPicture.querySelector(`.social__comment-count`);
+  const body = document.querySelector(`body`);
+  const bigPictureCancel = bigPicture.querySelector(`.big-picture__cancel`);
+  const bigPictureImg = bigPicture.querySelector(`img`);
+  const likesCount = bigPicture.querySelector(`.likes-count`);
+  const commentsCount = bigPicture.querySelector(`.comments-count`);
+  const socialCaption = bigPicture.querySelector(`.social__caption`);
+  const socialComments = bigPicture.querySelector(`.social__comments`);
+  const socialComment = bigPicture.querySelector(`.social__comment`);
+  const commentsLoader = bigPicture.querySelector(`.comments-loader`);
+  let clickCounter = 0;
   let startIndexComments = 0;
 
   const fillComments = function (element, indexComment) {
@@ -90,7 +89,7 @@
   };
 
   window.bigPicture = {
-    showBigPhoto: showBigPhoto
+    show: showBigPhoto
   };
 
 })();

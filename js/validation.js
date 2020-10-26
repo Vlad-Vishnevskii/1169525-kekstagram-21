@@ -1,17 +1,17 @@
 'use strict';
 
 (function () {
-  const inputHashtag = document.querySelector(`.text__hashtags`);
-  const uploadSelectImageForm = document.querySelector(`#upload-select-image`);
   const MAX_HASHTAGS = 5;
   const MAX_LENGTH_HASHTAG = 20;
   const MIN_LENGTH_HASHTAG = 1;
+  const inputHashtag = document.querySelector(`.text__hashtags`);
+  const uploadSelectImageForm = document.querySelector(`#upload-select-image`);
 
   const hasDuplicates = function (item, index, array) {
     return array.indexOf(item, index + 1) >= 0;
   };
 
-  const onHashtagValidation = function () {
+  const onHashtagValidationInput = function () {
     let arrayHashTags = inputHashtag.value.trim().toLowerCase().split(` `);
     const re = /^#[\w\a-я]*$/;
     const errors = [];
@@ -47,5 +47,5 @@
     uploadSelectImageForm.reportValidity();
   };
 
-  inputHashtag.addEventListener(`input`, onHashtagValidation);
+  inputHashtag.addEventListener(`input`, onHashtagValidationInput);
 })();

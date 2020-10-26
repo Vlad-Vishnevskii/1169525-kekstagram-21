@@ -13,7 +13,11 @@
     phobos: 3,
     heat: 3
   };
-
+  const DEFAULT_SCALE_VALUE = {
+    min: 25,
+    max: 100
+  };
+  const SCALE_STEP = 25;
   const imgUploadPreview = document.querySelector(`.img-upload__preview`);
   const effects = document.querySelector(`.effects`);
   const imgUploadEffectLevel = document.querySelector(`.img-upload__effect-level`);
@@ -22,15 +26,8 @@
   const effectLevelValue = imgUploadEffectLevel.querySelector(`.effect-level__value`);
   const effectLevelLine = imgUploadEffectLevel.querySelector(`.effect-level__line`);
   let currentFilter = null;
-
-  // маштаб
-  const DEFAULT_SCALE_VALUE = {
-    min: 25,
-    max: 100
-  };
   const scale = document.querySelector(`.scale`);
   const scaleControlValue = document.querySelector(`.scale__control--value`);
-  const SCALE_STEP = 25;
   let currentScaleValue = DEFAULT_SCALE_VALUE.max;
   scaleControlValue.value = `${DEFAULT_SCALE_VALUE.max}%`;
 
@@ -60,14 +57,6 @@
   };
 
   scale.addEventListener(`click`, onScaleControlChange);
-  //
-
-  const changeEffect = function (currentCoord) {
-    const value = (MAX_VALUE_FILTER[currentFilter] * currentCoord) / 100;
-    imgUploadPreview.style.filter = filterMap[currentFilter](value);
-  };
-
-  window.slider.init(effectLevelLine, effectLevelPin, effectLevelDepth, changeEffect);
 
   const filterMap = {
     chrome: function (value) {
@@ -87,10 +76,19 @@
     }
   };
 
+  const changeEffect = function (currentCoord) {
+    const value = (MAX_VALUE_FILTER[currentFilter] * currentCoord) / 100;
+    imgUploadPreview.style.filter = filterMap[currentFilter](value);
+  };
+
+  window.slider.init(effectLevelLine, effectLevelPin, effectLevelDepth, changeEffect);
+
   const resetEffects = function () {
     imgUploadEffectLevel.classList.add(`hidden`);
     imgUploadPreview.style.filter = ``;
     effectLevelValue.value = ``;
+    imgUploadPreview.style.transform = `scale(1)`;
+    scaleControlValue.value = `${DEFAULT_SCALE_VALUE.max}%`;
   };
 
   const onEffectChange = function (evt) {
@@ -111,5 +109,5 @@
 
   effects.addEventListener(`change`, onEffectChange);
 
-  resetEffects();
+  window.resetEffects = resetEffects;
 })();

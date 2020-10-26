@@ -7,12 +7,6 @@
   const body = document.querySelector(`body`);
   const uploadCancel = imgUpload.querySelector(`#upload-cancel`);
   const textDescription = document.querySelector(`.text__description`);
-  const popupSuccess = document.querySelector(`#success`)
-      .content
-      .querySelector(`.success`);
-  const popupError = document.querySelector(`#error`)
-      .content
-      .querySelector(`.error`);
 
   const onUploadFormEscPress = function (evt) {
     if (evt.key === window.constants.ESCAPE && textDescription !== document.activeElement) {
@@ -28,7 +22,6 @@
   const openUploadForm = function () {
     imgUpload.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
-
     document.addEventListener(`keydown`, onUploadFormEscPress);
     uploadCancel.addEventListener(`click`, onCancelClick);
   };
@@ -37,7 +30,7 @@
     imgUpload.classList.add(`hidden`);
     imgUpload.value = ``;
     body.classList.remove(`modal-open`);
-
+    window.resetEffects();
     document.removeEventListener(`keydown`, onUploadFormEscPress);
     uploadCancel.removeEventListener(`click`, onCancelClick);
   };
@@ -48,22 +41,21 @@
 
   const successSend = function () {
     imgUpload.classList.add(`hidden`);
-    window.popup.show(popupSuccess);
+    window.popup.success();
   };
 
   const errorSend = function (errorMessage) {
     imgUpload.classList.add(`hidden`);
-    window.popup.show(popupError);
-    const block = document.querySelector(`.error`);
-    let popupTitle = block.querySelector(`.error__title`);
-    popupTitle.textContent = errorMessage;
+    window.popup.error(errorMessage);
   };
 
-  uploadForm.addEventListener(`submit`, function (evt) {
+  const onSubmitForm = function (evt) {
     window.backend.upload(new FormData(uploadForm), successSend, errorSend);
     evt.preventDefault();
+    window.resetEffects();
     uploadForm.reset();
-  });
+  };
 
+  uploadForm.addEventListener(`submit`, onSubmitForm);
   window.errorSend = errorSend;
 })();
