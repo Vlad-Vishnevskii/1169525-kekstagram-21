@@ -13,33 +13,22 @@
   const socialCommentList = bigPicture.querySelector(`.social__comments`);
   const socialComment = bigPicture.querySelector(`.social__comment`);
   const commentLoader = bigPicture.querySelector(`.comments-loader`);
-  let clickCounter = 0;
-  let startIndexComment = 0;
+  let currentCountComment = MAX_COMMENTS;
 
-  const fillComments = function (element, indexComment) {
+  const fillComments = function (element) {
     const fragment = document.createDocumentFragment();
-    if (indexComment === 0) {
-      socialCommentList.innerHTML = ``;
-    }
+    socialCommentList.innerHTML = ``;
 
-    let counter = 0;
-    for (let i = indexComment; i < element.comments.length; i++) {
-      counter += 1;
+    for (let i = 0; i < element.comments.length; i++) {
       const socialCommentClone = socialComment.cloneNode(true);
       socialCommentClone.querySelector(`.social__picture`).src = element.comments[i].avatar;
       socialCommentClone.querySelector(`.social__picture`).alt = element.comments[i].name;
       socialCommentClone.querySelector(`.social__text`).textContent = element.comments[i].message;
       fragment.appendChild(socialCommentClone);
-      if (counter === MAX_COMMENTS) {
-        break;
-      }
     }
     socialCommentList.appendChild(fragment);
-    let socialCommentsCount = socialCommentList.childNodes;
-    if (element.comments.length < MAX_COMMENTS || socialCommentsCount.length === element.comments.length) {
+    if (element.comments.length < MAX_COMMENTS) {
       commentLoader.classList.add(`hidden`);
-      startIndexComment = 0;
-      clickCounter = 0;
     }
   };
 
@@ -48,16 +37,7 @@
     likesCount.textContent = element.likes;
     commentsCount.textContent = element.comments.length;
     socialCaption.textContent = element.description;
-    fillComments(element, startIndexComment);
-
-    commentLoader.addEventListener(`click`, function (evt) {
-      let target = evt.target.closest(`.comments-loader`);
-      if (target) {
-        clickCounter += 1;
-      }
-      startIndexComment = MAX_COMMENTS * clickCounter;
-      fillComments(element, startIndexComment);
-    });
+    fillComments(element);
   };
 
   const onCancelBigPhotoClick = function () {
@@ -71,12 +51,36 @@
     }
   };
 
+  const hideComments = function () {
+    const socialComments = socialCommentList.childNodes;
+    for (let i = MAX_COMMENTS; i < socialComments.length; i++) {
+      let comment = socialComments[i];
+      comment.classList.add(`hidden`);
+    }
+  };
+
+  const onCommentsLoaderClick = function () {
+    const socialComments = socialCommentList.childNodes;
+    currentCountComment += MAX_COMMENTS;
+    for (let i = MAX_COMMENTS; i < currentCountComment; i++) {
+      let comment = socialComments[i];
+      comment.classList.remove(`hidden`);
+      if (i === socialComments.length - 1) {
+        commentLoader.classList.add(`hidden`);
+        break;
+      }
+    }
+  };
+
   const showBigPhoto = function (element) {
+    currentCountComment = MAX_COMMENTS;
     socialCommentCount.classList.add(`hidden`);
     commentLoader.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
     bigPicture.classList.remove(`hidden`);
     fillBigPicture(element);
+    hideComments();
+    commentLoader.addEventListener(`click`, onCommentsLoaderClick);
     bigPictureCancel.addEventListener(`click`, onCancelBigPhotoClick);
     document.addEventListener(`keydown`, onBigPhotoEscPress);
   };
@@ -85,6 +89,7 @@
     bigPicture.classList.add(`hidden`);
     bigPictureCancel.removeEventListener(`click`, onCancelBigPhotoClick);
     document.removeEventListener(`keydown`, onBigPhotoEscPress);
+    commentLoader.removeEventListener(`click`, onCommentsLoaderClick);
     body.classList.remove(`modal-open`);
   };
 

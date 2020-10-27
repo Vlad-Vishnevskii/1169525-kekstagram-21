@@ -28,13 +28,12 @@
   const onFiltersClick = function (evt) {
     const target = evt.target.closest(`.img-filters__button`);
     if (target) {
-      window.picture.activeFilter(target);
       window.picture.remove();
       window.picture.render(window.filter(offers, target));
     }
   };
 
-  imgFilter.addEventListener(`click`, onFiltersClick);
+  imgFilter.addEventListener(`click`, window.util.debounce(onFiltersClick));
   pictureContainer.addEventListener(`click`, function (evt) {
     let target = evt.target.closest(`.picture`);
     if (target) {

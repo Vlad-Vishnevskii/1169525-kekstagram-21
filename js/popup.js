@@ -49,7 +49,7 @@
 
   const showPopupError = function (errorMessage) {
     const popupElement = popupError.cloneNode(true);
-    let popupTitle = popupElement.querySelector(`.error__title`);
+    const popupTitle = popupElement.querySelector(`.error__title`);
     main.appendChild(popupElement);
     popupTitle.textContent = errorMessage;
     popupElement.addEventListener(`click`, onPopupClick);

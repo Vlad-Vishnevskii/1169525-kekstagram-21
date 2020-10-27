@@ -30,7 +30,7 @@
     imgUpload.classList.add(`hidden`);
     imgUpload.value = ``;
     body.classList.remove(`modal-open`);
-    window.resetEffects();
+    window.effects.reset();
     document.removeEventListener(`keydown`, onUploadFormEscPress);
     uploadCancel.removeEventListener(`click`, onCancelClick);
   };
@@ -52,10 +52,9 @@
   const onSubmitForm = function (evt) {
     window.backend.upload(new FormData(uploadForm), successSend, errorSend);
     evt.preventDefault();
-    window.resetEffects();
+    window.effects.reset();
     uploadForm.reset();
   };
 
   uploadForm.addEventListener(`submit`, onSubmitForm);
-  window.errorSend = errorSend;
 })();

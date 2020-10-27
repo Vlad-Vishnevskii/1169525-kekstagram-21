@@ -109,5 +109,7 @@
 
   effectContainer.addEventListener(`change`, onEffectChange);
 
-  window.resetEffects = resetEffects;
+  window.effects = {
+    reset: resetEffects
+  };
 })();
