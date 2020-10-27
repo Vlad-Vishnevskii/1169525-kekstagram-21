@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  const pictures = document.querySelector(`.pictures`);
-  const picturesTitle = pictures.querySelector(`.pictures__title`);
+  const pictureContainer = document.querySelector(`.pictures`);
+  const pictureTitle = pictureContainer.querySelector(`.pictures__title`);
   const pictureTemplate = document.querySelector(`#picture`)
       .content
       .querySelector(`.picture`);
@@ -25,8 +25,8 @@
     for (let i = 0; i < data.length; i++) {
       fragment.appendChild(renderPhoto(data[i]));
     }
-    pictures.appendChild(fragment);
-    picturesTitle.classList.remove(`visually-hidden`);
+    pictureContainer.appendChild(fragment);
+    pictureTitle.classList.remove(`visually-hidden`);
   };
 
   const delElements = function () {

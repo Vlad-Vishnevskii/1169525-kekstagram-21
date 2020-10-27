@@ -9,7 +9,7 @@
     });
   };
 
-  const filterRandom = function (data) {
+  const getRandomPhotos = function (data) {
     return data.sort(function () {
       return window.util.getRandomInt(-1, 1);
     }).slice(0, MAX_UNIQUE_PHOTOS);
@@ -21,7 +21,7 @@
       case `filter-default`:
         return copyData;
       case `filter-random`:
-        return filterRandom(copyData);
+        return getRandomPhotos(copyData);
       case `filter-discussed`:
         return getDiscussedPhoto(copyData);
     }

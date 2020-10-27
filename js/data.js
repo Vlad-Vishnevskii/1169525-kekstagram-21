@@ -2,10 +2,10 @@
 
 (function () {
   let offers = [];
-  const imgFilters = document.querySelector(`.img-filters`);
-  const pictures = document.querySelector(`.pictures`);
+  const imgFilter = document.querySelector(`.img-filters`);
+  const pictureContainer = document.querySelector(`.pictures`);
 
-  imgFilters.classList.remove(`img-filters--inactive`);
+  imgFilter.classList.remove(`img-filters--inactive`);
 
   const dataTransform = function (data) {
     data.forEach(function (item, index) {
@@ -34,8 +34,8 @@
     }
   };
 
-  imgFilters.addEventListener(`click`, onFiltersClick);
-  pictures.addEventListener(`click`, function (evt) {
+  imgFilter.addEventListener(`click`, onFiltersClick);
+  pictureContainer.addEventListener(`click`, function (evt) {
     let target = evt.target.closest(`.picture`);
     if (target) {
       window.bigPicture.show(offers[target.dataset.id]);

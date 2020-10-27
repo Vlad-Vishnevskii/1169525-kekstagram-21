@@ -10,16 +10,16 @@
   const likesCount = bigPicture.querySelector(`.likes-count`);
   const commentsCount = bigPicture.querySelector(`.comments-count`);
   const socialCaption = bigPicture.querySelector(`.social__caption`);
-  const socialComments = bigPicture.querySelector(`.social__comments`);
+  const socialCommentList = bigPicture.querySelector(`.social__comments`);
   const socialComment = bigPicture.querySelector(`.social__comment`);
-  const commentsLoader = bigPicture.querySelector(`.comments-loader`);
+  const commentLoader = bigPicture.querySelector(`.comments-loader`);
   let clickCounter = 0;
-  let startIndexComments = 0;
+  let startIndexComment = 0;
 
   const fillComments = function (element, indexComment) {
     const fragment = document.createDocumentFragment();
     if (indexComment === 0) {
-      socialComments.innerHTML = ``;
+      socialCommentList.innerHTML = ``;
     }
 
     let counter = 0;
@@ -34,11 +34,11 @@
         break;
       }
     }
-    socialComments.appendChild(fragment);
-    let socialCommentsCount = socialComments.childNodes;
+    socialCommentList.appendChild(fragment);
+    let socialCommentsCount = socialCommentList.childNodes;
     if (element.comments.length < MAX_COMMENTS || socialCommentsCount.length === element.comments.length) {
-      commentsLoader.classList.add(`hidden`);
-      startIndexComments = 0;
+      commentLoader.classList.add(`hidden`);
+      startIndexComment = 0;
       clickCounter = 0;
     }
   };
@@ -48,15 +48,15 @@
     likesCount.textContent = element.likes;
     commentsCount.textContent = element.comments.length;
     socialCaption.textContent = element.description;
-    fillComments(element, startIndexComments);
+    fillComments(element, startIndexComment);
 
-    commentsLoader.addEventListener(`click`, function (evt) {
+    commentLoader.addEventListener(`click`, function (evt) {
       let target = evt.target.closest(`.comments-loader`);
       if (target) {
         clickCounter += 1;
       }
-      startIndexComments = MAX_COMMENTS * clickCounter;
-      fillComments(element, startIndexComments);
+      startIndexComment = MAX_COMMENTS * clickCounter;
+      fillComments(element, startIndexComment);
     });
   };
 
@@ -73,7 +73,7 @@
 
   const showBigPhoto = function (element) {
     socialCommentCount.classList.add(`hidden`);
-    commentsLoader.classList.remove(`hidden`);
+    commentLoader.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
     bigPicture.classList.remove(`hidden`);
     fillBigPicture(element);
