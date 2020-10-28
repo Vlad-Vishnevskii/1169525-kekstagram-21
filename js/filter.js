@@ -9,19 +9,28 @@
     });
   };
 
-  const filterRandom = function (data) {
+  const getRandomPhotos = function (data) {
     return data.sort(function () {
       return window.util.getRandomInt(-1, 1);
     }).slice(0, MAX_UNIQUE_PHOTOS);
   };
 
+  const activeFilter = function (filter) {
+    const lastActiveFilter = document.querySelector(`.img-filters__button--active`);
+    lastActiveFilter.classList.remove(`img-filters__button--active`);
+    if (!filter.classList.contains(`img-filters__button--active`)) {
+      filter.classList.add(`img-filters__button--active`);
+    }
+  };
+
   const filterData = function (data, filter) {
     const copyData = data.slice();
+    activeFilter(filter);
     switch (filter.id) {
       case `filter-default`:
         return copyData;
       case `filter-random`:
-        return filterRandom(copyData);
+        return getRandomPhotos(copyData);
       case `filter-discussed`:
         return getDiscussedPhoto(copyData);
     }

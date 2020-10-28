@@ -2,8 +2,10 @@
 
 (function () {
   let offers = [];
-  const imgFilters = document.querySelector(`.img-filters`);
-  const pictures = document.querySelector(`.pictures`);
+  const imgFilter = document.querySelector(`.img-filters`);
+  const pictureContainer = document.querySelector(`.pictures`);
+
+  imgFilter.classList.remove(`img-filters--inactive`);
 
   const dataTransform = function (data) {
     data.forEach(function (item, index) {
@@ -11,33 +13,31 @@
     });
   };
 
-  pictures.addEventListener(`click`, function (evt) {
-    let target = evt.target.closest(`.picture`);
-    if (target) {
-      window.bigPicture.showBigPhoto(offers[target.dataset.id]);
-    }
-  });
-
   const successHandler = function (data) {
     offers = data;
     dataTransform(offers);
     window.picture.render(offers);
   };
 
-  const loadOffers = function () {
-    window.backend.download(successHandler);
+  const errorHandler = function (errorMessage) {
+    window.popup.error(errorMessage);
   };
 
+  window.backend.download(successHandler, errorHandler);
+
   const onFiltersClick = function (evt) {
-    const target = evt.target;
-    if (target.closest(`.img-filters__button`)) {
-      window.picture.activeFilter(target);
+    const target = evt.target.closest(`.img-filters__button`);
+    if (target) {
       window.picture.remove();
       window.picture.render(window.filter(offers, target));
     }
   };
 
-  imgFilters.addEventListener(`click`, onFiltersClick);
-
-  loadOffers();
+  imgFilter.addEventListener(`click`, window.util.debounce(onFiltersClick));
+  pictureContainer.addEventListener(`click`, function (evt) {
+    let target = evt.target.closest(`.picture`);
+    if (target) {
+      window.bigPicture.show(offers[target.dataset.id]);
+    }
+  });
 })();

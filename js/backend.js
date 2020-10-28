@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  const URL = `https://21.javascript.pages.academy/kekstagram/data`;
-  const URL_UPLOAD = `https://21.javascript.pages.academy/kekstagram`;
+  const URL = `https://21.javascript.pages.academy/kekstagram`;
+  const TIMEOUT_IN_MS = 10000;
   const StatusCode = {
     OK: 200
   };
@@ -14,9 +14,7 @@
     500: `Внутренняя ошибка сервера`
   };
 
-  const TIMEOUT_IN_MS = 10000;
-
-  const download = function (onSuccess, onError) {
+  const createXhr = function (onSuccess, onError) {
     const xhr = new XMLHttpRequest();
     xhr.responseType = `json`;
 
@@ -37,24 +35,18 @@
 
     xhr.timeout = TIMEOUT_IN_MS;
 
-    xhr.open(`GET`, URL);
+    return xhr;
+  };
+
+  const download = function (onSuccess, onError) {
+    const xhr = createXhr(onSuccess, onError);
+    xhr.open(`GET`, `${URL}/data`);
     xhr.send();
   };
 
-  const upload = function (data, onSuccess) {
-    const xhr = new XMLHttpRequest();
-    xhr.responseType = `json`;
-
-    xhr.addEventListener(`load`, function () {
-      if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
-        window.popup.showSuccess();
-      } else {
-        window.popup.show(window.popup.error);
-      }
-    });
-
-    xhr.open(`POST`, URL_UPLOAD);
+  const upload = function (data, onSuccess, onError) {
+    const xhr = createXhr(onSuccess, onError);
+    xhr.open(`POST`, URL);
     xhr.send(data);
   };
 
