@@ -81,4 +81,5 @@
 
   uploadFile.addEventListener(`change`, readUploadFile);
   uploadForm.addEventListener(`submit`, onSubmitForm);
+
 })();
