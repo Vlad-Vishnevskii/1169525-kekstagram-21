@@ -1,12 +1,16 @@
 'use strict';
 
 (function () {
+  const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
   const uploadForm = document.querySelector(`.img-upload__form`);
   const uploadFile = document.querySelector(`#upload-file`);
   const imgUpload = document.querySelector(`.img-upload__overlay`);
   const body = document.querySelector(`body`);
   const uploadCancel = imgUpload.querySelector(`#upload-cancel`);
   const textDescription = document.querySelector(`.text__description`);
+  const previewContainer = document.querySelector(`.img-upload__preview`);
+  const preview = previewContainer.querySelector(`img`);
+  const TIMEOUT = 300;
 
   const onUploadFormEscPress = function (evt) {
     if (evt.key === window.constants.ESCAPE && textDescription !== document.activeElement) {
@@ -17,6 +21,25 @@
 
   const onCancelClick = function () {
     closeUploadForm();
+  };
+
+  const readUploadFile = function () {
+    const file = uploadFile.files[0];
+    const fileName = file.name.toLowerCase();
+
+    const matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      const reader = new FileReader();
+
+      reader.addEventListener(`load`, function () {
+        preview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
   };
 
   const openUploadForm = function () {
@@ -36,7 +59,7 @@
   };
 
   uploadFile.addEventListener(`change`, function () {
-    openUploadForm();
+    window.setTimeout(openUploadForm, TIMEOUT);
   });
 
   const successSend = function () {
@@ -56,5 +79,6 @@
     uploadForm.reset();
   };
 
+  uploadFile.addEventListener(`change`, readUploadFile);
   uploadForm.addEventListener(`submit`, onSubmitForm);
 })();
