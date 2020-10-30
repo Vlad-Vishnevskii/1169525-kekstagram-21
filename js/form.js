@@ -2,6 +2,7 @@
 
 (function () {
   const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
+  const TIMEOUT = 100;
   const uploadForm = document.querySelector(`.img-upload__form`);
   const uploadFile = document.querySelector(`#upload-file`);
   const imgUpload = document.querySelector(`.img-upload__overlay`);
@@ -10,7 +11,6 @@
   const textDescription = document.querySelector(`.text__description`);
   const previewContainer = document.querySelector(`.img-upload__preview`);
   const preview = previewContainer.querySelector(`img`);
-  const TIMEOUT = 300;
 
   const onUploadFormEscPress = function (evt) {
     if (evt.key === window.constants.ESCAPE && textDescription !== document.activeElement) {
