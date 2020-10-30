@@ -11,6 +11,7 @@
   const textDescription = document.querySelector(`.text__description`);
   const previewContainer = document.querySelector(`.img-upload__preview`);
   const preview = previewContainer.querySelector(`img`);
+  const effectLevel = document.querySelector(`.effect-level`);
 
   const onUploadFormEscPress = function (evt) {
     if (evt.key === window.constants.ESCAPE && textDescription !== document.activeElement) {
@@ -45,6 +46,7 @@
   const openUploadForm = function () {
     imgUpload.classList.remove(`hidden`);
     body.classList.add(`modal-open`);
+    effectLevel.classList.add(`hidden`);
     document.addEventListener(`keydown`, onUploadFormEscPress);
     uploadCancel.addEventListener(`click`, onCancelClick);
   };

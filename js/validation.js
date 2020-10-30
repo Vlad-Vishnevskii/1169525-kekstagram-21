@@ -54,7 +54,7 @@
     if (!textComment.validity.valid) {
       textComment.classList.add(`error-frame`);
     }
-  }
+  };
 
   inputHashtag.addEventListener(`input`, onHashtagValidationInput);
   textComment.addEventListener(`input`, onTextCommentValidation);
