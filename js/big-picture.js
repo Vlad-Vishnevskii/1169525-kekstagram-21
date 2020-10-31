@@ -17,12 +17,11 @@
   let commentOnCard = MAX_COMMENTS;
   let BigPhotoElement;
 
-  const fillComments = function (element, commentNumber) {
+  const fillComments = function (element) {
     const fragment = document.createDocumentFragment();
     socialCommentList.innerHTML = ``;
-    let comments = element.comments.slice(0, commentNumber);
 
-    comments.forEach(function (item) {
+    element.forEach(function (item) {
       const socialCommentClone = socialComment.cloneNode(true);
       socialCommentClone.querySelector(`.social__picture`).src = item.avatar;
       socialCommentClone.querySelector(`.social__picture`).alt = item.name;
@@ -50,7 +49,8 @@
     bigPictureImg.src = element.url;
     likesCount.textContent = element.likes;
     socialCaption.textContent = element.description;
-    fillComments(element, MAX_COMMENTS);
+    let comments = element.comments.slice(0, commentOnCard);
+    fillComments(comments);
   };
 
   const onCancelBigPhotoClick = function () {
@@ -72,9 +72,11 @@
     } else {
       commentOnCard += MAX_COMMENTS;
     }
+
     getCommentsCount(BigPhotoElement, commentOnCard);
+    let commentsArray = BigPhotoElement.comments.slice(0, commentOnCard);
     if (index <= maxClickCount) {
-      fillComments(BigPhotoElement, commentOnCard);
+      fillComments(commentsArray);
     }
     index++;
   };
