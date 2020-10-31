@@ -14,8 +14,8 @@
   const commentLoader = bigPicture.querySelector(`.comments-loader`);
   const commentsShown = bigPicture.querySelector(`.comments-shown`);
   const commentCount = bigPicture.querySelector(`.comments-count`);
-  let commentOnCard = MAX_COMMENTS;
   let BigPhotoElement;
+  let index = 1;
 
   const fillComments = function (element) {
     const fragment = document.createDocumentFragment();
@@ -49,8 +49,9 @@
     bigPictureImg.src = element.url;
     likesCount.textContent = element.likes;
     socialCaption.textContent = element.description;
-    let comments = element.comments.slice(0, commentOnCard);
+    let comments = element.comments.slice(0, MAX_COMMENTS);
     fillComments(comments);
+    getCommentsCount(element, MAX_COMMENTS);
   };
 
   const onCancelBigPhotoClick = function () {
@@ -65,25 +66,24 @@
   };
 
   const onCommentLoaderClick = function () {
-    let index = 1;
-    const maxClickCount = Math.trunc(BigPhotoElement.comments.length / MAX_COMMENTS);
-    if (commentOnCard + MAX_COMMENTS > BigPhotoElement.comments.length) {
-      commentOnCard += (BigPhotoElement.comments.length - commentOnCard);
+    index++;
+    let commentsArray;
+    const maxClickCount = Math.ceil(BigPhotoElement.comments.length / MAX_COMMENTS);
+    if (index * MAX_COMMENTS > BigPhotoElement.comments.length) {
+      commentsArray = BigPhotoElement.comments.slice(0, BigPhotoElement.comments.length);
     } else {
-      commentOnCard += MAX_COMMENTS;
+      commentsArray = BigPhotoElement.comments.slice(0, index * MAX_COMMENTS);
     }
 
-    getCommentsCount(BigPhotoElement, commentOnCard);
-    let commentsArray = BigPhotoElement.comments.slice(0, commentOnCard);
+    getCommentsCount(BigPhotoElement, commentsArray.length);
     if (index <= maxClickCount) {
       fillComments(commentsArray);
     }
-    index++;
   };
 
   const showBigPhoto = function (element) {
     BigPhotoElement = element;
-    commentOnCard = MAX_COMMENTS;
+    index = 1;
     commentLoader.classList.add(`hidden`);
     socialCommentCount.classList.add(`hidden`);
     body.classList.add(`modal-open`);
@@ -91,7 +91,6 @@
     fillBigPicture(element);
     bigPictureCancel.addEventListener(`click`, onCancelBigPhotoClick);
     document.addEventListener(`keydown`, onBigPhotoEscPress);
-    getCommentsCount(element, MAX_COMMENTS);
     commentLoader.addEventListener(`click`, onCommentLoaderClick);
   };
 
