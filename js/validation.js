@@ -41,8 +41,10 @@
 
     if (errors.length) {
       inputHashtag.setCustomValidity(errors[0]);
+      inputHashtag.classList.add(`error-frame`);
     } else {
       inputHashtag.setCustomValidity(``);
+      inputHashtag.classList.remove(`error-frame`);
     }
     uploadSelectImageForm.reportValidity();
   };
