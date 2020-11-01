@@ -14,14 +14,15 @@
   const commentLoader = bigPicture.querySelector(`.comments-loader`);
   const commentsShown = bigPicture.querySelector(`.comments-shown`);
   const commentCount = bigPicture.querySelector(`.comments-count`);
-  let BigPhotoElement;
+  let bigPhotoElement;
+  let maxClickCount;
   let index = 1;
 
-  const fillComments = function (element) {
+  const fillComments = function (commentArray) {
     const fragment = document.createDocumentFragment();
     socialCommentList.innerHTML = ``;
 
-    element.forEach(function (item) {
+    commentArray.forEach(function (item) {
       const socialCommentClone = socialComment.cloneNode(true);
       socialCommentClone.querySelector(`.social__picture`).src = item.avatar;
       socialCommentClone.querySelector(`.social__picture`).alt = item.name;
@@ -31,17 +32,12 @@
     socialCommentList.appendChild(fragment);
   };
 
-  const getCommentsCount = function (element, endNumber) {
+  const showCommentsCount = function (element) {
     if (element.comments.length > MAX_COMMENTS) {
       commentLoader.classList.remove(`hidden`);
       socialCommentCount.classList.remove(`hidden`);
-      commentsShown.textContent = endNumber;
+      commentsShown.textContent = MAX_COMMENTS;
       commentCount.textContent = element.comments.length;
-    }
-
-    if (endNumber === element.comments.length) {
-      commentLoader.classList.add(`hidden`);
-      socialCommentCount.classList.add(`hidden`);
     }
   };
 
@@ -49,9 +45,8 @@
     bigPictureImg.src = element.url;
     likesCount.textContent = element.likes;
     socialCaption.textContent = element.description;
-    let comments = element.comments.slice(0, MAX_COMMENTS);
-    fillComments(comments);
-    getCommentsCount(element, MAX_COMMENTS);
+    fillComments(element.comments.slice(0, MAX_COMMENTS));
+    showCommentsCount(element);
   };
 
   const onCancelBigPhotoClick = function () {
@@ -68,22 +63,20 @@
   const onCommentLoaderClick = function () {
     index++;
     let commentsArray;
-    const maxClickCount = Math.ceil(BigPhotoElement.comments.length / MAX_COMMENTS);
-    if (index * MAX_COMMENTS > BigPhotoElement.comments.length) {
-      commentsArray = BigPhotoElement.comments.slice(0, BigPhotoElement.comments.length);
-    } else {
-      commentsArray = BigPhotoElement.comments.slice(0, index * MAX_COMMENTS);
+    commentsArray = bigPhotoElement.comments.slice(0, index * MAX_COMMENTS);
+    if (commentsArray.length >= bigPhotoElement.comments.length) {
+      commentLoader.classList.add(`hidden`);
     }
-
-    getCommentsCount(BigPhotoElement, commentsArray.length);
+    commentsShown.textContent = commentsArray.length;
     if (index <= maxClickCount) {
       fillComments(commentsArray);
     }
   };
 
   const showBigPhoto = function (element) {
-    BigPhotoElement = element;
+    bigPhotoElement = element;
     index = 1;
+    maxClickCount = Math.ceil(bigPhotoElement.comments.length / MAX_COMMENTS);
     commentLoader.classList.add(`hidden`);
     socialCommentCount.classList.add(`hidden`);
     body.classList.add(`modal-open`);
@@ -105,5 +98,4 @@
   window.bigPicture = {
     show: showBigPhoto
   };
-
 })();
