@@ -15,7 +15,6 @@
   const commentsShown = bigPicture.querySelector(`.comments-shown`);
   const commentCount = bigPicture.querySelector(`.comments-count`);
   let bigPhotoElement;
-  let maxClickCount;
   let index = 1;
 
   const fillComments = function (commentArray) {
@@ -62,21 +61,17 @@
 
   const onCommentLoaderClick = function () {
     index++;
-    let commentsArray;
-    commentsArray = bigPhotoElement.comments.slice(0, index * MAX_COMMENTS);
+    const commentsArray = bigPhotoElement.comments.slice(0, index * MAX_COMMENTS);
+    fillComments(commentsArray);
     if (commentsArray.length >= bigPhotoElement.comments.length) {
       commentLoader.classList.add(`hidden`);
     }
     commentsShown.textContent = commentsArray.length;
-    if (index <= maxClickCount) {
-      fillComments(commentsArray);
-    }
   };
 
   const showBigPhoto = function (element) {
     bigPhotoElement = element;
     index = 1;
-    maxClickCount = Math.ceil(bigPhotoElement.comments.length / MAX_COMMENTS);
     commentLoader.classList.add(`hidden`);
     socialCommentCount.classList.add(`hidden`);
     body.classList.add(`modal-open`);

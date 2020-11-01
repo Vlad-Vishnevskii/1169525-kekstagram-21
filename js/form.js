@@ -2,7 +2,6 @@
 
 (function () {
   const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
-  const TIMEOUT = 100;
   const uploadForm = document.querySelector(`.img-upload__form`);
   const uploadFile = document.querySelector(`#upload-file`);
   const imgUpload = document.querySelector(`.img-upload__overlay`);
@@ -24,7 +23,7 @@
     closeUploadForm();
   };
 
-  const readUploadFile = function () {
+  const onUploadFileRead = function () {
     const file = uploadFile.files[0];
     const fileName = file.name.toLowerCase();
 
@@ -38,15 +37,15 @@
       reader.addEventListener(`load`, function () {
         preview.src = reader.result;
       });
-
       reader.readAsDataURL(file);
     }
   };
 
   const openUploadForm = function () {
-    imgUpload.classList.remove(`hidden`);
+    onUploadFileRead();
     body.classList.add(`modal-open`);
     effectLevel.classList.add(`hidden`);
+    imgUpload.classList.remove(`hidden`);
     document.addEventListener(`keydown`, onUploadFormEscPress);
     uploadCancel.addEventListener(`click`, onCancelClick);
   };
@@ -59,10 +58,6 @@
     document.removeEventListener(`keydown`, onUploadFormEscPress);
     uploadCancel.removeEventListener(`click`, onCancelClick);
   };
-
-  uploadFile.addEventListener(`change`, function () {
-    window.setTimeout(openUploadForm, TIMEOUT);
-  });
 
   const successSend = function () {
     imgUpload.classList.add(`hidden`);
@@ -81,7 +76,6 @@
     uploadForm.reset();
   };
 
-  uploadFile.addEventListener(`change`, readUploadFile);
+  uploadFile.addEventListener(`change`, openUploadForm);
   uploadForm.addEventListener(`submit`, onSubmitForm);
-
 })();

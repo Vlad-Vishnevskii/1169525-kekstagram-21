@@ -79,6 +79,7 @@
   const changeEffect = function (currentCoord) {
     const value = (MAX_VALUE_FILTER[currentFilter] * currentCoord) / 100;
     imgUploadPreview.style.filter = filterMap[currentFilter](value);
+    effectLevelValue.value = currentCoord;
   };
 
   window.slider.init(effectLevelLine, effectLevelPin, effectLevelDepth, changeEffect);
@@ -86,7 +87,7 @@
   const resetEffects = function () {
     imgUploadEffectLevel.classList.add(`hidden`);
     imgUploadPreview.style.filter = ``;
-    effectLevelValue.value = ``;
+    effectLevelValue.value = DEFAULT_EFFECT_VALUE.max;
     imgUploadPreview.style.transform = `scale(1)`;
     scaleControlValue.value = `${DEFAULT_SCALE_VALUE.max}%`;
   };
