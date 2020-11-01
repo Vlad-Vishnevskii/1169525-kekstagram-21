@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  const FILE_TYPES = [`gif`, `jpg`, `jpeg`, `png`];
   const uploadForm = document.querySelector(`.img-upload__form`);
   const uploadFile = document.querySelector(`#upload-file`);
   const imgUpload = document.querySelector(`.img-upload__overlay`);
@@ -23,26 +22,8 @@
     closeUploadForm();
   };
 
-  const onUploadFileRead = function () {
-    const file = uploadFile.files[0];
-    const fileName = file.name.toLowerCase();
-
-    const matches = FILE_TYPES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
-      const reader = new FileReader();
-
-      reader.addEventListener(`load`, function () {
-        preview.src = reader.result;
-      });
-      reader.readAsDataURL(file);
-    }
-  };
-
   const openUploadForm = function () {
-    onUploadFileRead();
+    window.uploadPicture(uploadFile, preview);
     body.classList.add(`modal-open`);
     effectLevel.classList.add(`hidden`);
     imgUpload.classList.remove(`hidden`);
@@ -53,6 +34,7 @@
   const closeUploadForm = function () {
     imgUpload.classList.add(`hidden`);
     imgUpload.value = ``;
+    preview.src = ``;
     body.classList.remove(`modal-open`);
     window.effects.reset();
     document.removeEventListener(`keydown`, onUploadFormEscPress);

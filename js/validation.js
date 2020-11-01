@@ -6,7 +6,6 @@
   const MIN_LENGTH_HASHTAG = 1;
   const inputHashtag = document.querySelector(`.text__hashtags`);
   const uploadSelectImageForm = document.querySelector(`#upload-select-image`);
-  const textComment = document.querySelector(`.text__description`);
 
   const hasDuplicates = function (item, index, array) {
     return array.indexOf(item, index + 1) >= 0;
@@ -50,12 +49,5 @@
     uploadSelectImageForm.reportValidity();
   };
 
-  const onTextCommentValidation = function () {
-    if (!textComment.validity.valid) {
-      textComment.classList.add(`error-frame`);
-    }
-  };
-
   inputHashtag.addEventListener(`input`, onHashtagValidationInput);
-  textComment.addEventListener(`input`, onTextCommentValidation);
 })();
