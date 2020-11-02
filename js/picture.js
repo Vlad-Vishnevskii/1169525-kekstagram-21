@@ -1,43 +1,41 @@
 'use strict';
 
-(function () {
-  const pictureContainer = document.querySelector(`.pictures`);
-  const pictureTitle = pictureContainer.querySelector(`.pictures__title`);
-  const pictureTemplate = document.querySelector(`#picture`)
-      .content
-      .querySelector(`.picture`);
+const pictureContainer = document.querySelector(`.pictures`);
+const pictureTitle = pictureContainer.querySelector(`.pictures__title`);
+const pictureTemplate = document.querySelector(`#picture`)
+  .content
+  .querySelector(`.picture`);
 
-  const renderPhoto = function (photo) {
-    const pictureElement = pictureTemplate.cloneNode(true);
+const renderPhoto = function (photo) {
+  const pictureElement = pictureTemplate.cloneNode(true);
 
-    pictureElement.dataset.id = photo.id;
-    pictureElement.querySelector(`.picture__img`).src = photo.url;
-    pictureElement.querySelector(`.picture__img`).alt = photo.description;
-    pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
-    pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
+  pictureElement.dataset.id = photo.id;
+  pictureElement.querySelector(`.picture__img`).src = photo.url;
+  pictureElement.querySelector(`.picture__img`).alt = photo.description;
+  pictureElement.querySelector(`.picture__likes`).textContent = photo.likes;
+  pictureElement.querySelector(`.picture__comments`).textContent = photo.comments.length;
 
-    return pictureElement;
-  };
+  return pictureElement;
+};
 
-  const fillElements = function (data) {
-    const fragment = document.createDocumentFragment();
+const fillElements = function (data) {
+  const fragment = document.createDocumentFragment();
 
-    for (let i = 0; i < data.length; i++) {
-      fragment.appendChild(renderPhoto(data[i]));
-    }
-    pictureContainer.appendChild(fragment);
-    pictureTitle.classList.remove(`visually-hidden`);
-  };
+  for (let i = 0; i < data.length; i++) {
+    fragment.appendChild(renderPhoto(data[i]));
+  }
+  pictureContainer.appendChild(fragment);
+  pictureTitle.classList.remove(`visually-hidden`);
+};
 
-  const delElements = function () {
-    const picturesCards = document.querySelectorAll(`.picture`);
-    picturesCards.forEach(function (item) {
-      item.remove();
-    });
-  };
+const delElements = function () {
+  const picturesCards = document.querySelectorAll(`.picture`);
+  picturesCards.forEach(function (item) {
+    item.remove();
+  });
+};
 
-  window.picture = {
-    render: fillElements,
-    remove: delElements
-  };
-})();
+window.picture = {
+  render: fillElements,
+  remove: delElements
+};

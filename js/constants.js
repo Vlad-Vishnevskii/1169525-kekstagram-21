@@ -1,7 +1,5 @@
 'use strict';
 
-(function () {
-  window.constants = {
-    ESCAPE: `Escape`
-  };
-})();
+window.constants = {
+  ESCAPE: `Escape`
+};
