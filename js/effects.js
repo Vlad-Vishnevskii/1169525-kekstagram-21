@@ -57,19 +57,19 @@ const onScaleControlChange = function (evt) {
 scale.addEventListener(`click`, onScaleControlChange);
 
 const filterMap = {
-  chrome: function (value) {
+  chrome(value) {
     return `grayscale(${value.toFixed(1)})`;
   },
-  sepia: function (value) {
+  sepia(value) {
     return `sepia(${value.toFixed(1)})`;
   },
-  marvin: function (value) {
+  marvin(value) {
     return `invert(${value.toFixed(1)}%)`;
   },
-  phobos: function (value) {
+  phobos(value) {
     return `blur(${value.toFixed(1)}px)`;
   },
-  heat: function (value) {
+  heat(value) {
     return `brightness(${value.toFixed(1)})`;
   }
 };

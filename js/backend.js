@@ -5,7 +5,7 @@ const TIMEOUT_IN_MS = 10000;
 const StatusCode = {
   OK: 200
 };
-const messageOfError = {
+const MessageOfError = {
   400: `Неверный запрос`,
   401: `Пользователь не авторизирован`,
   403: `Доступ запрещен`,
@@ -21,7 +21,7 @@ const createXhr = function (onSuccess, onError) {
     if (xhr.status === StatusCode.OK) {
       onSuccess(xhr.response);
     } else {
-      onError(`Статус ответа: ${messageOfError[xhr.status]}`);
+      onError(`Статус ответа: ${MessageOfError[xhr.status]}`);
     }
   });
 
@@ -50,6 +50,6 @@ const upload = function (data, onSuccess, onError) {
 };
 
 window.backend = {
-  download: download,
-  upload: upload
+  downl: download,
+  upl: upload
 };

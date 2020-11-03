@@ -22,9 +22,9 @@ const errorHandler = function (errorMessage) {
   window.popup.error(errorMessage);
 };
 
-window.backend.download(successHandler, errorHandler);
+window.backend.downl(successHandler, errorHandler);
 
-const onFiltersClick = function (evt) {
+const renderSortedPictures = function (evt) {
   const target = evt.target.closest(`.img-filters__button`);
   if (target) {
     window.picture.remove();
@@ -32,7 +32,9 @@ const onFiltersClick = function (evt) {
   }
 };
 
-imgFilter.addEventListener(`click`, window.util.debounce(onFiltersClick));
+const onFiltersClick = window.util.deboun(renderSortedPictures);
+
+imgFilter.addEventListener(`click`, onFiltersClick);
 pictureContainer.addEventListener(`click`, function (evt) {
   let target = evt.target.closest(`.picture`);
   if (target) {

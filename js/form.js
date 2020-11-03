@@ -21,7 +21,7 @@ const onCancelClick = function () {
   closeUploadForm();
 };
 
-const openUploadForm = function () {
+const onUploadFormChange = function () {
   window.uploadPicture(uploadFile, preview);
   body.classList.add(`modal-open`);
   effectLevel.classList.add(`hidden`);
@@ -51,11 +51,11 @@ const errorSend = function (errorMessage) {
 };
 
 const onSubmitForm = function (evt) {
-  window.backend.upload(new FormData(uploadForm), successSend, errorSend);
+  window.backend.upl(new FormData(uploadForm), successSend, errorSend);
   evt.preventDefault();
   window.effects.reset();
   uploadForm.reset();
 };
 
-uploadFile.addEventListener(`change`, openUploadForm);
+uploadFile.addEventListener(`change`, onUploadFormChange);
 uploadForm.addEventListener(`submit`, onSubmitForm);

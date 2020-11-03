@@ -21,6 +21,6 @@ const debounce = function (cb) {
 };
 
 window.util = {
-  getRandomInt: getRandomInt,
-  debounce: debounce
+  randIn: getRandomInt,
+  deboun: debounce
 };
