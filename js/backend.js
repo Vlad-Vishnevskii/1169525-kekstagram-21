@@ -12,6 +12,10 @@ const MessageOfError = {
   404: `Ничего не найдено`,
   500: `Внутренняя ошибка сервера`
 };
+const Method = {
+  GET: `GET`,
+  POST: `POST`
+};
 
 const createXhr = function (onSuccess, onError) {
   const xhr = new XMLHttpRequest();
@@ -39,13 +43,13 @@ const createXhr = function (onSuccess, onError) {
 
 const download = function (onSuccess, onError) {
   const xhr = createXhr(onSuccess, onError);
-  xhr.open(`GET`, `${END_POINT}/data`);
+  xhr.open(Method.GET, `${END_POINT}/data`);
   xhr.send();
 };
 
 const upload = function (data, onSuccess, onError) {
   const xhr = createXhr(onSuccess, onError);
-  xhr.open(`POST`, END_POINT);
+  xhr.open(Method.POST, END_POINT);
   xhr.send(data);
 };
 
