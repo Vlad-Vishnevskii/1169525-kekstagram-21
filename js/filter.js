@@ -10,7 +10,7 @@ const getDiscussedPhoto = function (data) {
 
 const getRandomPhotos = function (data) {
   return data.sort(function () {
-    return window.util.randIn(-1, 1);
+    return window.util.getRandomInt(-1, 1);
   }).slice(0, MAX_UNIQUE_PHOTOS);
 };
 

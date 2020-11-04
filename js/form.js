@@ -51,7 +51,7 @@ const errorSend = function (errorMessage) {
 };
 
 const onSubmitForm = function (evt) {
-  window.backend.upl(new FormData(uploadForm), successSend, errorSend);
+  window.backend.upload(new FormData(uploadForm), successSend, errorSend);
   evt.preventDefault();
   window.effects.reset();
   uploadForm.reset();

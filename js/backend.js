@@ -50,6 +50,6 @@ const upload = function (data, onSuccess, onError) {
 };
 
 window.backend = {
-  downl: download,
-  upl: upload
+  download,
+  upload
 };

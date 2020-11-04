@@ -22,7 +22,7 @@ const errorHandler = function (errorMessage) {
   window.popup.error(errorMessage);
 };
 
-window.backend.downl(successHandler, errorHandler);
+window.backend.download(successHandler, errorHandler);
 
 const renderSortedPictures = function (evt) {
   const target = evt.target.closest(`.img-filters__button`);
@@ -32,7 +32,7 @@ const renderSortedPictures = function (evt) {
   }
 };
 
-const onFiltersClick = window.util.deboun(renderSortedPictures);
+const onFiltersClick = window.util.debounce(renderSortedPictures);
 
 imgFilter.addEventListener(`click`, onFiltersClick);
 pictureContainer.addEventListener(`click`, function (evt) {
